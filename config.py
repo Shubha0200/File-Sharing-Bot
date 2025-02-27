@@ -31,11 +31,9 @@ DB_NAME = os.environ.get("DATABASE_NAME", "rb5028432")
 
 #force sub channel id, if you want enable force sub
 FORCE_SUB_CHANNELS = [
-    int(channel) for channel in [
-        os.environ.get("FORCE_SUB_CHANNEL_1"),
-        os.environ.get("FORCE_SUB_CHANNEL_2"),
-        os.environ.get("FORCE_SUB_CHANNEL_3")
-    ] if channel and channel.lstrip('-').isdigit()
+    int(os.environ.get("FORCE_SUB_CHANNEL_1", "-1002343164262")),
+    int(os.environ.get("FORCE_SUB_CHANNEL_2", "-1002262591479")),
+    int(os.environ.get("FORCE_SUB_CHANNEL_3", "-1002383034992")),
 ]
 JOIN_REQUEST_ENABLE = os.environ.get("JOIN_REQUEST_ENABLED", "False").lower() == "true"
 
