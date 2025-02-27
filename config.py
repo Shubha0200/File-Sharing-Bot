@@ -7,67 +7,70 @@ from logging.handlers import RotatingFileHandler
 
 load_dotenv()
 
-#Bot token @Botfather
+# Bot token @Botfather
 TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "7532458641:AAHJgXb9LoeVbtPMRlLhHe-v4F-V_176gJ4")
 
-#Your API ID from my.telegram.org
+# Your API ID from my.telegram.org
 APP_ID = int(os.environ.get("APP_ID", "21459238"))
 
-#Your API Hash from my.telegram.org
+# Your API Hash from my.telegram.org
 API_HASH = os.environ.get("API_HASH", "0cef1924d139587654bc18402d2b512d")
 
-#Your db channel Id
+# Your db channel Id
 CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "-1002448726887"))
 
-#OWNER ID
+# OWNER ID
 OWNER_ID = int(os.environ.get("OWNER_ID", "1782088532"))
 
-#Port
+# Port
 PORT = os.environ.get("PORT", "8080")
 
-#Database 
-DB_UR = os.environ.get("DATABASE_URL", "mongodb+srv://shubhashankar246:nEWTylzLZpiuysRh@cluster0.kpecd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+# Database
+DB_URI = os.environ.get("DATABASE_URL", "mongodb+srv://shubhashankar246:nEWTylzLZpiuysRh@cluster0.kpecd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 DB_NAME = os.environ.get("DATABASE_NAME", "shubhashankar246")
 
-#force sub channel id, if you want enable force sub
-FORCE_SUB_CHANNEL = int(os.environ.get("FORCE_SUB_CHANNEL_1", "-1002343164262"))
-FORCE_SUB_CHANNEL = int(os.environ.get("FORCE_SUB_CHANNEL_1", "-1002262591479"))
-FORCE_SUB_CHANNEL = int(os.environ.get("FORCE_SUB_CHANNEL_1", "-1002383034992"))
+# Force Sub Channels
+FORCE_SUB_CHANNELS = [
+    int(os.environ.get("FORCE_SUB_CHANNEL_1", "-1002343164262")),
+    int(os.environ.get("FORCE_SUB_CHANNEL_2", "-1002262591479")),
+    int(os.environ.get("FORCE_SUB_CHANNEL_3", "-1002383034992"))
+]
 
 TG_BOT_WORKERS = int(os.environ.get("TG_BOT_WORKERS", "4"))
 
-#start message
-START_PIC = os.environ.get("START_PIC","")
-START_MSG = os.environ.get("START_MESSAGE", "Hello {first}\n\nI can store private files in Specified Channel and other users can access it from special link.")
-try:
-    ADMINS=[]
-    for x in (os.environ.get("ADMINS", "1782088532").split()):
-        ADMINS.append(int(x))
-except ValueError:
-        raise Exception("Your Admins list does not contain valid integers.")
+# Start Message
+START_PIC = os.environ.get("START_PIC", "")
+START_MSG = os.environ.get("START_MESSAGE", "Hello {first}\n\nI can store private files in a specified channel, and other users can access them via a special link.")
 
-#Force sub message 
+# Admins List
+try:
+    ADMINS = [int(x) for x in os.environ.get("ADMINS", "1782088532").split() if x.lstrip('-').isdigit()]
+except ValueError:
+    raise Exception("Your ADMINS list contains invalid values. Ensure all IDs are numbers.")
+
+# Ensure OWNER_ID is in the admins list
+if OWNER_ID not in ADMINS:
+    ADMINS.append(OWNER_ID)
+
+# Force Sub Message
 FORCE_MSG = os.environ.get("FORCE_SUB_MESSAGE", "Hello {first}\n\n<b>You need to join in my Channel to use me\n\nKindly Please join Channel</b>")
 
-#set your Custom Caption here, Keep None for Disable Custom Caption
+# Set your Custom Caption here, Keep None for Disable Custom Caption
 CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", None)
 
-#set True if you want to prevent users from forwarding files from bot
-PROTECT_CONTENT = True if os.environ.get('PROTECT_CONTENT', "False") == "True" else False
+# Set True if you want to prevent users from forwarding files from bot
+PROTECT_CONTENT = os.environ.get('PROTECT_CONTENT', "False").lower() == "true"
 
-# Auto delete time in seconds.
-AUTO_DELETE_TIME = int(os.getenv("AUTO_DELETE_TIME", "1800"))
+# Auto delete time in seconds
+AUTO_DELETE_TIME = int(os.environ.get("AUTO_DELETE_TIME", "1800"))
 AUTO_DELETE_MSG = os.environ.get("AUTO_DELETE_MSG", "This file will be automatically deleted in {time} seconds. Please ensure you have saved any necessary content before this time.")
 AUTO_DEL_SUCCESS_MSG = os.environ.get("AUTO_DEL_SUCCESS_MSG", "Your file has been successfully deleted. Thank you for using our service. ✅")
 
-#Set true if you want Disable your Channel Posts Share button
-DISABLE_CHANNEL_BUTTON = True if os.environ.get('DISABLE_CHANNEL_BUTTON', "True") == "True" else False
+# Set true if you want to disable your Channel Posts Share button
+DISABLE_CHANNEL_BUTTON = os.environ.get('DISABLE_CHANNEL_BUTTON', "False").lower() == "true"
 
 BOT_STATS_TEXT = "<b>BOT UPTIME</b>\n{uptime}"
 USER_REPLY_TEXT = "❌Don't send me messages directly I'm only File Share bot!"
-
-ADMINS.append(OWNER_ID)
-ADMINS.append(1782088532)
 
 LOG_FILE_NAME = "filesharingbot.txt"
 
