@@ -30,7 +30,7 @@ DB_URI = os.environ.get("DATABASE_URL", "mongodb+srv://rb5028432:<db_password>@c
 DB_NAME = os.environ.get("DATABASE_NAME", "rb5028432")
 
 #force sub channel id, if you want enable force sub
-FORCE_SUB_CHANNELS = [
+FORCE_SUB_CHANNEL = [
     int(channel) for channel in [
         os.environ.get("FORCE_SUB_CHANNEL_1" ,"-1002343164262"),
         os.environ.get("FORCE_SUB_CHANNEL_2" ,"-1002262591479"),
