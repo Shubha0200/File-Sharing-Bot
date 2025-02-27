@@ -68,8 +68,6 @@ DISABLE_CHANNEL_BUTTON = os.environ.get("DISABLE_CHANNEL_BUTTON", "False").lower
 BOT_STATS_TEXT = "<b>BOT UPTIME</b>\n{uptime}"
 USER_REPLY_TEXT = "❌Don't send me messages directly I'm only File Share bot!"
 
-if OWNER_ID not in ADMINS:
-    ADMINS.append(OWNER_ID)
 
 LOG_FILE_NAME = "filesharingbot.txt"
 
