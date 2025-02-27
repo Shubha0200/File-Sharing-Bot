@@ -29,11 +29,17 @@ PORT = os.environ.get("PORT", "8080")
 DB_URI = os.environ.get("DATABASE_URL", "mongodb+srv://shubhashankar246:nEWTylzLZpiuysRh@cluster0.kpecd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 DB_NAME = os.environ.get("DATABASE_NAME", "shubhashankar246")
 
+# Helper function to convert string to boolean
+def str_to_bool(value):
+    return str(value).strip().lower() in ("true", "1", "yes")
+
 # Force Sub Channels
 FORCE_SUB_CHANNELS = [
-    int(os.environ.get("FORCE_SUB_CHANNEL_1", "-1002343164262")),
-    int(os.environ.get("FORCE_SUB_CHANNEL_2", "-1002262591479")),
-    int(os.environ.get("FORCE_SUB_CHANNEL_3", "-1002383034992"))
+    int(channel) for channel in [
+        os.environ.get("FORCE_SUB_CHANNEL_1", "-1002343164262"),
+        os.environ.get("FORCE_SUB_CHANNEL_2", "-1002262591479"),
+        os.environ.get("FORCE_SUB_CHANNEL_3", "-1002383034992")
+    ] if channel and channel.lstrip('-').isdigit()
 ]
 
 TG_BOT_WORKERS = int(os.environ.get("TG_BOT_WORKERS", "4"))
@@ -48,9 +54,8 @@ try:
 except ValueError:
     raise Exception("Your ADMINS list contains invalid values. Ensure all IDs are numbers.")
 
-# Ensure OWNER_ID is in the admins list
-if OWNER_ID not in ADMINS:
-    ADMINS.append(OWNER_ID)
+# Ensure OWNER_ID is in the admins list without duplication
+ADMINS = list(set(ADMINS + [OWNER_ID]))
 
 # Force Sub Message
 FORCE_MSG = os.environ.get("FORCE_SUB_MESSAGE", "Hello {first}\n\n<b>You need to join in my Channel to use me\n\nKindly Please join Channel</b>")
@@ -59,7 +64,7 @@ FORCE_MSG = os.environ.get("FORCE_SUB_MESSAGE", "Hello {first}\n\n<b>You need to
 CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", None)
 
 # Set True if you want to prevent users from forwarding files from bot
-PROTECT_CONTENT = os.environ.get('PROTECT_CONTENT', "False").lower() == "true"
+PROTECT_CONTENT = str_to_bool(os.environ.get("PROTECT_CONTENT", "False"))
 
 # Auto delete time in seconds
 AUTO_DELETE_TIME = int(os.environ.get("AUTO_DELETE_TIME", "1800"))
@@ -67,12 +72,15 @@ AUTO_DELETE_MSG = os.environ.get("AUTO_DELETE_MSG", "This file will be automatic
 AUTO_DEL_SUCCESS_MSG = os.environ.get("AUTO_DEL_SUCCESS_MSG", "Your file has been successfully deleted. Thank you for using our service. ✅")
 
 # Set true if you want to disable your Channel Posts Share button
-DISABLE_CHANNEL_BUTTON = os.environ.get('DISABLE_CHANNEL_BUTTON', "False").lower() == "true"
+DISABLE_CHANNEL_BUTTON = str_to_bool(os.environ.get("DISABLE_CHANNEL_BUTTON", "False"))
 
 BOT_STATS_TEXT = "<b>BOT UPTIME</b>\n{uptime}"
 USER_REPLY_TEXT = "❌Don't send me messages directly I'm only File Share bot!"
 
-LOG_FILE_NAME = "filesharingbot.txt"
+# Log File Handling
+LOG_DIR = "logs"
+os.makedirs(LOG_DIR, exist_ok=True)
+LOG_FILE_NAME = os.path.join(LOG_DIR, "filesharingbot.txt")
 
 logging.basicConfig(
     level=logging.INFO,
