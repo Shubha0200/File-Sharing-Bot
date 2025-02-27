@@ -30,9 +30,11 @@ DB_URI = os.environ.get("DATABASE_URL", "mongodb+srv://rb5028432:<db_password>@c
 DB_NAME = os.environ.get("DATABASE_NAME", "rb5028432")
 
 #force sub channel id, if you want enable force sub
-FORCE_SUB_CHANNEL = int(os.environ.get("FORCE_SUB_CHANNEL", "-1002343164262")),
-FORCE_SUB_CHANNEL = int(os.environ.get("FORCE_SUB_CHANNEL", "-1002262591479")),
-FORCE_SUB_CHANNEL = int(os.environ.get("FORCE_SUB_CHANNEL", "-1002383034992")),
+FORCE_SUB_CHANNELS = [
+    int(os.environ.get("FORCE_SUB_CHANNEL_1", "-1002343164262")),
+    int(os.environ.get("FORCE_SUB_CHANNEL_2", "-1002262591479")),
+    int(os.environ.get("FORCE_SUB_CHANNEL_3", "-1002383034992")),
+]
 JOIN_REQUEST_ENABLE = os.environ.get("JOIN_REQUEST_ENABLED", "False").lower() == "true"
 
 
@@ -42,9 +44,7 @@ TG_BOT_WORKERS = int(os.environ.get("TG_BOT_WORKERS", "4"))
 START_PIC = os.environ.get("START_PIC","")
 START_MSG = os.environ.get("START_MESSAGE", "Hello {first}\n\nI can store private files in Specified Channel and other users can access it from special link.")
 try:
-    ADMINS=[]
-    for x in (os.environ.get("ADMINS", "1782088532").split()):
-        ADMINS.append(int(x))
+    ADMINS = [int(x) for x in os.environ.get("ADMINS", "1782088532").split() if x.isdigit()]
 except ValueError:
         raise Exception("Your Admins list does not contain valid integers.")
 
@@ -68,8 +68,8 @@ DISABLE_CHANNEL_BUTTON = os.environ.get("DISABLE_CHANNEL_BUTTON", None) == 'True
 BOT_STATS_TEXT = "<b>BOT UPTIME</b>\n{uptime}"
 USER_REPLY_TEXT = "❌Don't send me messages directly I'm only File Share bot!"
 
-ADMINS.append(OWNER_ID)
-ADMINS.append(1782088532)
+if OWNER_ID not in ADMINS:
+    ADMINS.append(OWNER_ID)
 
 LOG_FILE_NAME = "filesharingbot.txt"
 
