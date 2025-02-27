@@ -44,9 +44,9 @@ TG_BOT_WORKERS = int(os.environ.get("TG_BOT_WORKERS", "4"))
 START_PIC = os.environ.get("START_PIC","")
 START_MSG = os.environ.get("START_MESSAGE", "Hello {first}\n\nI can store private files in Specified Channel and other users can access it from special link.")
 try:
-    ADMINS = [int(x) for x in os.environ.get("ADMINS", "1782088532").split() if x.isdigit()]
+    ADMINS = [int(x) for x in os.environ.get("ADMINS", "1782088532").split() if x.lstrip('-').isdigit()]
 except ValueError:
-        raise Exception("Your Admins list does not contain valid integers.")
+    raise Exception("Your ADMINS list contains invalid values. Ensure all IDs are numbers.")
 
 #Force sub message 
 FORCE_MSG = os.environ.get("FORCE_SUB_MESSAGE", "Hello {first}\n\n<b>You need to join in my Channel/Group to use me\n\nKindly Please join Channel</b>")
