@@ -31,9 +31,11 @@ DB_NAME = os.environ.get("DATABASE_NAME", "rb5028432")
 
 #force sub channel id, if you want enable force sub
 FORCE_SUB_CHANNELS = [
-    int(os.environ.get("FORCE_SUB_CHANNEL_1", "-1002343164262")),
-    int(os.environ.get("FORCE_SUB_CHANNEL_2", "-1002262591479")),
-    int(os.environ.get("FORCE_SUB_CHANNEL_3", "-1002383034992")),
+    int(channel) for channel in [
+        os.environ.get("FORCE_SUB_CHANNEL_1"),
+        os.environ.get("FORCE_SUB_CHANNEL_2"),
+        os.environ.get("FORCE_SUB_CHANNEL_3")
+    ] if channel and channel.lstrip('-').isdigit()
 ]
 JOIN_REQUEST_ENABLE = os.environ.get("JOIN_REQUEST_ENABLED", "False").lower() == "true"
 
@@ -44,7 +46,7 @@ TG_BOT_WORKERS = int(os.environ.get("TG_BOT_WORKERS", "4"))
 START_PIC = os.environ.get("START_PIC","")
 START_MSG = os.environ.get("START_MESSAGE", "Hello {first}\n\nI can store private files in Specified Channel and other users can access it from special link.")
 try:
-    ADMINS = [int(x) for x in os.environ.get("ADMINS", "1782088532").split() if x.lstrip('-').isdigit()]
+    ADMINS = [int(x) for x in os.environ.get("ADMINS", "1782088532").split() if x.lstrip("-","").isdigit()]
 except ValueError:
     raise Exception("Your ADMINS list contains invalid values. Ensure all IDs are numbers.")
 
