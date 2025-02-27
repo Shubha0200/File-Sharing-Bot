@@ -34,7 +34,7 @@ FORCE_SUB_CHANNEL = [
     int(channel) for channel in [
         os.environ.get("FORCE_SUB_CHANNEL_1" ,"-1002343164262"),
         os.environ.get("FORCE_SUB_CHANNEL_2" ,"-1002262591479"),
-        os.environ.get("FORCE_SUB_CHANNEL_3" ,"-1002383034992"),
+        os.environ.get("FORCE_SUB_CHANNEL_3" ,"-1002383034992")
     ] if channel and channel.lstrip('-').isdigit()
 ]
 JOIN_REQUEST_ENABLE = os.environ.get("JOIN_REQUEST_ENABLED", "False").lower() == "true"
